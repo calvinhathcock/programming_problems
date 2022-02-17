@@ -8,3 +8,9 @@ transpose = list(map(list, zip(*mat)))
 
 #common input list comprehension (matrix)
 in = [list(map(int, input().split())) for _ in range(4)] 
+
+#matrix to string output
+for row in new_board:
+    for c in row:
+        print(str(c),  end = ' ')
+    print()
