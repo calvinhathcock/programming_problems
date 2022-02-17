@@ -2,47 +2,52 @@
 # 0, 1, 2, 3
 # left, up, right, down
 
-no_of_lines = 5
-board = []
-move = 0
-
+#input
 board = [list(map(int, input().split())) for _ in range(4)]
+direction = int(input())
+new_board = []
 
-for i in range(no_of_lines):
-    board.append(list(map(int, input().split())))
-move = board[4][0]
-del board[4]
+#board transformation for direction
+if direction == 0:
+    for i in board:
+        i = i.reverse()
+if direction == 1:
+    board = list(map(list, zip(*board)))
+    for i in board:
+        i = i.reverse()
+if direction == 3:
+    board = list(map(list, zip(*board)))
 
-if (move == 0):
-    for row in board:
-        for i in range(3,-1,-1):
-            case = neighbor_check(row[i], row[i+1])
-            if (case == 1):
-                row[i+1] = i*2
-                row[i] = 0
-                break
-            if (case == 2):
-                if (neighbor_check(row[i], row[i+2]) == 
-            
-            
-'''
-returns
-    1: match     
-    2: 0
-    3: no match
-'''       
-def neighbor_check(a, b):
-    if a == b:
-        return 1
-    elif b == 0:
-        return 2
-    else:
-        return 3
-         
-'''
-if (move == 1):
+#main loop
+for r in board:
+    t = [x for x in r if x > 0]
+    checked = []
+    for i in reversed(range(len(t))):
+        if i in checked:
+            continue
+        if i > 0:
+            if t[i] == t[i-1]:
+                t[i] = t[i]*2
+                t.pop(i-1)
+                checked.append(i-1)
+    if len(t) < 4:
+        for i in range(4-len(t)):
+            t.insert(0, 0)
+    new_board.append(t)
 
-if (move == 2):
+#revert board direction
+if direction == 0:
+    for i in new_board:
+        i = i.reverse()
+if direction == 1:
+    for i in new_board:
+        i = i.reverse()
+    new_board = list(map(list, zip(*new_board)))
+if direction == 3:
+    new_board = list(map(list, zip(*new_board)))
 
-if (move == 3):
-'''
+#output
+for row in new_board:
+    for c in row:
+        print(str(c),  end = ' ')
+    print()
